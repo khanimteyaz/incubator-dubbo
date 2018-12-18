@@ -14,12 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.metadata.integration;
+package org.apache.dubbo.rpc.cluster.router.condition.config.model;
+
+import org.apache.dubbo.rpc.cluster.router.AbstractRouterRule;
+
+import java.util.List;
 
 /**
- * 2018/9/19
+ *
  */
-public interface InterfaceNameTestService2 {
+public class BlackWhiteListRule extends AbstractRouterRule {
+    private List<String> conditions;
 
-    public void test2();
+    public List<String> getConditions() {
+        return conditions;
+    }
+
+    public void setConditions(List<String> conditions) {
+        this.conditions = conditions;
+    }
 }

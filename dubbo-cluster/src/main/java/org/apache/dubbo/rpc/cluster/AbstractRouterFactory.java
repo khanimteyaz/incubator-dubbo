@@ -14,12 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.metadata.integration;
+package org.apache.dubbo.rpc.cluster;
+
+import org.apache.dubbo.common.URL;
+
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
- * 2018/9/19
+ * If you want to provide a Router implementation based on design of v2.7.0, please extend from this abstract class.
+ * For 2.6.x style Router, please implement and use RouterFactory directly.
  */
-public interface InterfaceNameTestService2 {
+public abstract class AbstractRouterFactory implements RouterFactory {
+    private ConcurrentMap<String, Router> routerMap = new ConcurrentHashMap<>();
 
-    public void test2();
+    @Override
+    public Router getRouter(URL url) {
+        routerMap.computeIfAbsent(url.getServiceKey(), k -> createRouter(url));
+        return routerMap.get(url.getServiceKey());
+    }
+
+    protected abstract Router createRouter(URL url);
 }

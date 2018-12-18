@@ -14,12 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.metadata.integration;
+package org.apache.dubbo.rpc.cluster.router.condition.config;
+
+import org.apache.dubbo.common.URL;
+import org.apache.dubbo.common.extension.Activate;
+import org.apache.dubbo.configcenter.DynamicConfiguration;
+import org.apache.dubbo.rpc.cluster.AbstractRouterFactory;
+import org.apache.dubbo.rpc.cluster.Router;
 
 /**
- * 2018/9/19
+ *
  */
-public interface InterfaceNameTestService2 {
+@Activate(order = 300)
+public class ServiceConfigConditionRouterFactory extends AbstractRouterFactory {
 
-    public void test2();
+    public static final String NAME = "config-condition";
+
+    @Override
+    protected Router createRouter(URL url) {
+        return new ServiceConfigConditionRouter(DynamicConfiguration.getDynamicConfiguration(), url);
+    }
+
 }

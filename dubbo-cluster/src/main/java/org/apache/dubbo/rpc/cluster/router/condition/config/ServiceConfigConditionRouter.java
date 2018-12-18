@@ -14,12 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.metadata.integration;
+package org.apache.dubbo.rpc.cluster.router.condition.config;
+
+import org.apache.dubbo.common.Constants;
+import org.apache.dubbo.common.URL;
+import org.apache.dubbo.configcenter.ConfigChangeEvent;
+import org.apache.dubbo.configcenter.DynamicConfiguration;
 
 /**
- * 2018/9/19
+ *
  */
-public interface InterfaceNameTestService2 {
+public class ServiceConfigConditionRouter extends AbstractConfigConditionRouter {
 
-    public void test2();
+    public ServiceConfigConditionRouter(DynamicConfiguration configuration, URL url) {
+        super(configuration, url);
+    }
+
+    protected synchronized void init() {
+        String key = url.getEncodedServiceKey() + Constants.ROUTERS_SUFFIX;
+        String rawRule = configuration.getConfig(key);
+        if (rawRule != null) {
+            this.process(new ConfigChangeEvent(key, rawRule));
+        }
+
+        configuration.addListener(key, this);
+    }
+
 }

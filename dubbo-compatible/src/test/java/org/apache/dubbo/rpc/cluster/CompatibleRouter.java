@@ -14,26 +14,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.rpc.cluster.router.condition.config;
+package org.apache.dubbo.rpc.cluster;
 
-import org.apache.dubbo.common.URL;
-import org.apache.dubbo.common.extension.Activate;
-import org.apache.dubbo.configcenter.DynamicConfiguration;
-import org.apache.dubbo.rpc.cluster.Router;
-import org.apache.dubbo.rpc.cluster.RouterFactory;
+import com.alibaba.dubbo.common.URL;
+import com.alibaba.dubbo.rpc.Invocation;
+import com.alibaba.dubbo.rpc.Invoker;
+import com.alibaba.dubbo.rpc.RpcException;
+import com.alibaba.dubbo.rpc.cluster.Router;
+
+import java.util.List;
 
 /**
  *
  */
-@Activate(order = 200)
-public class ConfigConditionRouterFactory implements RouterFactory {
+public class CompatibleRouter implements Router {
     @Override
-    public Router getRouter(URL url) {
+    public URL getUrl() {
         return null;
     }
 
     @Override
-    public Router getRouter(DynamicConfiguration dynamicConfiguration, URL url) {
-        return new ConfigConditionRouter(dynamicConfiguration, url);
+    public <T> List<Invoker<T>> route(List<Invoker<T>> invokers, URL url, Invocation invocation) throws RpcException {
+        return null;
+    }
+
+    @Override
+    public int compareTo(Router o) {
+        return 0;
     }
 }

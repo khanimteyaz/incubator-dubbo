@@ -14,12 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.metadata.integration;
+package org.apache.dubbo.rpc.cluster;
+
+import org.apache.dubbo.common.URL;
 
 /**
- * 2018/9/19
+ *
  */
-public interface InterfaceNameTestService2 {
+public abstract class AbstractAppRouterFactory implements RouterFactory {
+    private Router router;
 
-    public void test2();
+    @Override
+    public Router getRouter(URL url) {
+        if (router != null) {
+            return router;
+        }
+        synchronized (this) {
+            if (router == null) {
+                router = createRouter(url);
+            }
+        }
+        return router;
+    }
+
+    protected abstract Router createRouter(URL url);
 }

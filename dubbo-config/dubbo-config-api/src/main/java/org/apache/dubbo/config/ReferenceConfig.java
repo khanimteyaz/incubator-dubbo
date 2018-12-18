@@ -439,7 +439,7 @@ public class ReferenceConfig<T> extends AbstractReferenceConfig {
         this.asyncInterfaceClass = interfaceClass;
         this.interfaceClass = target;
         setInterface(this.interfaceClass.getName());
-        map.put(Constants.INTERFACES, interfaceClass.getName());
+        map.put(Constants.INTERFACES, asyncInterfaceClass.getName());
     }
 
 
@@ -555,7 +555,7 @@ public class ReferenceConfig<T> extends AbstractReferenceConfig {
     @Override
     @Parameter(excluded = true)
     public String getPrefix() {
-        return Constants.DUBBO + ".reference";
+        return Constants.DUBBO + ".reference." + interfaceName;
     }
 
 }
